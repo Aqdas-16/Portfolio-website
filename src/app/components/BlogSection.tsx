@@ -1,223 +1,301 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { GlowCard } from "./GlowCard";
-import {
-  BookOpen,
-  ArrowRight,
-  Tag,
-  Calendar,
-  Clock,
-  X,
-  Download,
-} from "lucide-react";
+import { BookOpen, X, Download } from "lucide-react";
 
 export function BlogSection() {
+
+  /* ---------------- STATE ---------------- */
+
   const [selectedBlog, setSelectedBlog] = useState<number | null>(null);
   const [showAllBlogs, setShowAllBlogs] = useState(false);
+  const [previewFile, setPreviewFile] = useState<string | null>(null);
+
+  /* ---------------- BLOG DATA ---------------- */
 
   const blogs = [
+
     {
       id: 1,
       title: "Learning Excel for Data Analysis",
       category: "Excel",
-      categoryColor: "#38BDF8",
-      date: "Jan 2026",
-      readTime: "5",
+      image: "/images/excel.png",
       excerpt:
-        "My first step into analytics started with Excel where I learned data cleaning, sorting, and pivot tables.",
-      fullDescription:
-        "I began my analytics journey with Excel. I learned formulas, pivot tables, dashboards, and data cleaning. Excel built my foundation in structured thinking and reporting.",
-      notesFile: null,
+        "Data cleaning, pivot tables, formulas and dashboards using Excel.",
+      notes: "Coming Soon",
     },
 
     {
       id: 2,
       title: "Diving into SQL Databases",
       category: "SQL",
-      categoryColor: "#2563EB",
-      date: "Feb 2026",
-      readTime: "7",
+      image: "/images/sql.png",
       excerpt:
-        "SQL opened the doors to managing databases and writing complex queries.",
-      fullDescription:
-        "SQL helped me work with large datasets. I learned joins, aggregations, subqueries, and performance optimization. It strengthened my data extraction and database understanding.",
-      
-      // 🔽 REAL NOTES LINK
-      notesFile: "/notes/sql-notes.pdf",
+        "Structured querying, joins, aggregations and database design.",
+      notes: "/notes/sql-notes.pdf",   // ← YOUR PDF PATH
     },
 
     {
       id: 3,
       title: "Programming with Python",
       category: "Python",
-      categoryColor: "#60A5FA",
-      date: "Mar 2026",
-      readTime: "8",
+      image: "/images/python.png",
       excerpt:
-        "Python enabled automation and deeper analytics capabilities.",
-      fullDescription:
-        "Python expanded my analytics toolkit. I worked with Pandas, NumPy, and Matplotlib to automate workflows and analyze datasets programmatically.",
-      notesFile: null,
+        "Automation, Pandas, NumPy and data processing workflows.",
+      notes: "Coming Soon",
     },
+
+    {
+      id: 4,
+      title: "Power BI Dashboards",
+      category: "Power BI",
+      image: "/images/powerbi.png",
+      excerpt:
+        "Interactive dashboards, DAX and business reporting.",
+      notes: "Coming Soon",
+    },
+
+    {
+      id: 5,
+      title: "Statistics Fundamentals",
+      category: "Statistics",
+      image: "/images/statistics.png",
+      excerpt:
+        "Hypothesis testing, distributions and regression basics.",
+      notes: "Coming Soon",
+    },
+
+    {
+      id: 6,
+      title: "Tableau Visualization",
+      category: "Tableau",
+      image: "/images/tableau.png",
+      excerpt:
+        "Storytelling dashboards and advanced visual analytics.",
+      notes: "Coming Soon",
+    },
+
   ];
 
+  /* ---------------- UI ---------------- */
+
   return (
-    <section id="blog" className="py-20 px-4 relative">
+    <section id="blog" className="py-20 px-4">
+
       <div className="max-w-7xl mx-auto">
 
-        {/* HEADER */}
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="text-[#E5E7EB]">Knowledge </span>
-            <span className="text-[#38BDF8]">Hub</span>
+        {/* ---------- HEADER ---------- */}
+
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-white mb-4">
+            Knowledge Hub
           </h2>
-
-          <div className="w-24 h-1 bg-gradient-to-r from-[#38BDF8] to-[#2563EB] mx-auto mb-6" />
-
-          <p className="text-[#9CA3AF] max-w-2xl mx-auto">
+          <p className="text-gray-400">
             Technical articles and study notes from my analytics journey
           </p>
-        </motion.div>
-
-        {/* BLOG CARDS */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {blogs.map((blog) => (
-            <GlowCard key={blog.id} className="overflow-hidden group h-full">
-              <div className="flex flex-col h-full">
-
-                {/* IMAGE */}
-                <div className="h-48 flex items-center justify-center bg-gradient-to-br from-[#111827] to-[#1F2937]">
-                  <BookOpen className="w-12 h-12 text-[#38BDF8]" />
-                </div>
-
-                {/* CONTENT */}
-                <div className="p-6 flex flex-col flex-1 space-y-4">
-
-                  {/* CATEGORY */}
-                  <div className="flex justify-between">
-                    <span
-                      className="text-xs font-mono px-2 py-1 rounded-full border"
-                      style={{
-                        color: blog.categoryColor,
-                        borderColor: `${blog.categoryColor}40`,
-                      }}
-                    >
-                      {blog.category}
-                    </span>
-
-                    <span className="text-xs text-[#9CA3AF] flex items-center gap-1">
-                      <Calendar className="w-3 h-3" />
-                      {blog.date}
-                    </span>
-                  </div>
-
-                  {/* TITLE */}
-                  <h3 className="text-lg font-bold text-[#E5E7EB] group-hover:text-[#38BDF8]">
-                    {blog.title}
-                  </h3>
-
-                  {/* EXCERPT */}
-                  <p className="text-sm text-[#9CA3AF] flex-1">
-                    {blog.excerpt}
-                  </p>
-
-                  {/* READ MORE */}
-                  <button
-                    onClick={() => setSelectedBlog(blog.id)}
-                    className="flex items-center gap-2 text-[#38BDF8] text-sm"
-                  >
-                    Read More
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </GlowCard>
-          ))}
         </div>
+
+        {/* ---------- TOP 3 CARDS ---------- */}
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          {blogs.slice(0, 3).map((blog) => (
+
+            <div
+              key={blog.id}
+              className="bg-[#111827] border border-[#374151] rounded-xl overflow-hidden hover:border-[#38BDF8]/60 transition-all group"
+            >
+
+              {/* ICON IMAGE (SMALL) */}
+              <div className="h-28 flex items-center justify-center bg-gradient-to-br from-[#0B0F14] to-[#1F2937] border-b border-[#374151]">
+
+                <img
+                  src={blog.image}
+                  alt={blog.title}
+                  className="w-16 h-16 object-contain group-hover:scale-110 transition-transform duration-300"
+                />
+
+              </div>
+
+              {/* CONTENT */}
+              <div className="p-5 space-y-3">
+
+                <h3 className="text-lg font-semibold text-white">
+                  {blog.title}
+                </h3>
+
+                <p className="text-sm text-gray-400">
+                  {blog.excerpt}
+                </p>
+
+                <button
+                  onClick={() => {
+                    if (blog.notes !== "Coming Soon") {
+                      setPreviewFile(blog.notes);
+                    } else {
+                      alert("Notes not uploaded yet");
+                    }
+                  }}
+                  className="text-[#38BDF8] text-sm hover:underline"
+                >
+                  Open Notes
+                </button>
+
+              </div>
+
+            </div>
+
+          ))}
+
+        </div>
+
+        {/* ---------- VIEW MORE BUTTON ---------- */}
+
+        <div className="text-center mt-12">
+          <button
+            onClick={() => setShowAllBlogs(true)}
+            className="px-8 py-3 border border-[#38BDF8] text-[#38BDF8] rounded-lg hover:bg-[#38BDF8]/10"
+          >
+            View More
+          </button>
+        </div>
+
       </div>
 
-      {/* BLOG MODAL */}
+      {/* ---------- ALL BLOGS MODAL ---------- */}
+
       <AnimatePresence>
-        {selectedBlog && (
+
+        {showAllBlogs && (
+
           <motion.div
-            className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setSelectedBlog(null)}
+            onClick={() => setShowAllBlogs(false)}
           >
-            <motion.div
-              className="bg-[#1F2937] max-w-2xl w-full rounded-lg border border-[#38BDF8]/30"
+
+            <div
+              className="bg-[#0B0F14] max-w-5xl w-full max-h-[90vh] overflow-y-auto rounded-xl border border-[#38BDF8]/30 p-6"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* HEADER */}
-              <div className="p-6 border-b border-[#374151] flex justify-between">
-                <h2 className="text-xl font-bold text-white">
-                  {blogs.find((b) => b.id === selectedBlog)?.title}
-                </h2>
 
-                <button onClick={() => setSelectedBlog(null)}>
-                  <X />
-                </button>
-              </div>
+              <h2 className="text-2xl text-white mb-6">
+                All Notes & Articles
+              </h2>
 
-              {/* BODY */}
-              <div className="p-6 space-y-6">
+              <div className="grid md:grid-cols-2 gap-6">
 
-                {/* DESCRIPTION */}
-                <p className="text-[#9CA3AF] leading-relaxed">
-                  {
-                    blogs.find((b) => b.id === selectedBlog)
-                      ?.fullDescription
-                  }
-                </p>
+                {blogs.map((blog) => (
 
-                {/* NOTES SECTION */}
-                <div className="bg-[#111827] border border-[#38BDF8]/20 rounded-lg p-4">
+                  <div
+                    key={blog.id}
+                    className="bg-[#111827] border border-[#374151] rounded-lg overflow-hidden"
+                  >
 
-                  <div className="flex justify-between mb-4">
-                    <h3 className="text-white font-semibold">
-                      Study Notes
-                    </h3>
+                    <div className="h-24 flex items-center justify-center bg-gradient-to-br from-[#0B0F14] to-[#1F2937]">
 
-                    {blogs.find((b) => b.id === selectedBlog)
-                      ?.notesFile && (
-                      <a
-                        href={
-                          blogs.find((b) => b.id === selectedBlog)
-                            ?.notesFile!
-                        }
-                        download
-                        target="_blank"
-                        className="flex items-center gap-2 px-4 py-2 bg-[#38BDF8]/10 border border-[#38BDF8]/30 text-[#38BDF8] rounded-lg text-sm"
+                      <img
+                        src={blog.image}
+                        className="w-14 h-14 object-contain"
+                      />
+
+                    </div>
+
+                    <div className="p-4 space-y-2">
+
+                      <h3 className="text-white font-semibold text-sm">
+                        {blog.title}
+                      </h3>
+
+                      <button
+                        onClick={() => {
+                          if (blog.notes !== "Coming Soon") {
+                            setPreviewFile(blog.notes);
+                            setShowAllBlogs(false);
+                          } else {
+                            alert("Notes not uploaded yet");
+                          }
+                        }}
+                        className="text-[#38BDF8] text-xs hover:underline"
                       >
-                        <Download className="w-4 h-4" />
-                        Download
-                      </a>
-                    )}
+                        Open Notes
+                      </button>
+
+                    </div>
+
                   </div>
 
-                  <div className="text-center py-6">
-                    <BookOpen className="w-8 h-8 text-[#38BDF8] mx-auto mb-2 opacity-50" />
+                ))}
 
-                    <p className="text-sm text-[#9CA3AF] font-mono">
-                      {blogs.find((b) => b.id === selectedBlog)
-                        ?.notesFile
-                        ? "Click download to access notes"
-                        : "Notes Coming Soon"}
-                    </p>
-                  </div>
-                </div>
               </div>
-            </motion.div>
+
+            </div>
+
           </motion.div>
+
         )}
+
       </AnimatePresence>
+
+      {/* ---------- PREVIEW MODAL ---------- */}
+
+      <AnimatePresence>
+
+        {previewFile && (
+
+          <motion.div
+            className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+
+            <div className="bg-[#0B0F14] w-full max-w-6xl h-[90vh] rounded-xl border border-[#38BDF8]/30 flex flex-col">
+
+              {/* HEADER */}
+              <div className="flex justify-between items-center p-4 border-b border-[#374151]">
+
+                <h3 className="text-white font-semibold">
+                  Notes Preview
+                </h3>
+
+                <div className="flex gap-4">
+
+                  <a
+                    href={previewFile}
+                    download
+                    className="flex items-center gap-2 px-4 py-2 bg-[#38BDF8]/10 border border-[#38BDF8]/40 text-[#38BDF8] rounded-lg text-sm"
+                  >
+                    <Download size={16} />
+                    Download
+                  </a>
+
+                  <button
+                    onClick={() => setPreviewFile(null)}
+                    className="text-gray-400 hover:text-white"
+                  >
+                    <X />
+                  </button>
+
+                </div>
+
+              </div>
+
+              {/* PDF VIEWER */}
+              <iframe
+                src={previewFile}
+                className="flex-1 w-full"
+              />
+
+            </div>
+
+          </motion.div>
+
+        )}
+
+      </AnimatePresence>
+
     </section>
   );
 }
